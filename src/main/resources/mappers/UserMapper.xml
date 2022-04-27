@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pension.pro.dao.UserDao">
+
+    <!--开启缓存-->
+    <cache eviction="FIFO" flushInterval="60000" readOnly="false" size="1024"></cache>
+
+<!--  公共查询条件  -->
+    <sql id="user_where">
+        <where>
+            <if test="user_name!=null">
+                user_name like concat('%',#{user_name},'%')
+            </if>
+            <if test="user_idcard">
+                and user_idcard like concat('%',#{user_idcard},'%')
+            </if>
+
+        </where>
+    </sql>
+
+<!--新增用户信息-->
+    <insert id="saveUser">
+        insert into p_user (user_id,user_name,user_sex,user_idcard,user_born)
+        values (#{user_id},#{user_name},#{user_sex},#{user_idcard},#{user_born})
+
+    </insert>
+
+
+    <!---->
+    <update id="updateUser">
+            update p_user set user_id=#{user_id},
+                              user_name=#{user_name},
+                              user_sex=#{user_sex},
+                              user_idcard=#{user_idcard},
+                              user_born=#{user_born},
+                              user_age=#{user_age},
+                              user_place=#{user_place},
+                              user_phone=#{user_phone},
+                              user_marry=#{user_marry},
+                              user_politics=#{user_politics},
+                              user_reside=#{user_reside},
+                              user_type_id=#{user_type_id},
+                              user_social=#{user_social},
+                              situation_id=#{situation_id},
+                              user_location=#{user_location},
+                              station_id=#{station_id},
+                              user_picture=#{user_picture},
+                              user_comment=#{user_comment}
+
+    </update>
+
+    <!--通过ID删除用户信息-->
+    <delete id="deleteUserById">
+        delete from p_user where id=#{user_id}
+    </delete>
+
+
+
+<!--获得用户集合-->
+    <select id="findUserList" resultType="com.pension.pro.entity.User">
+        select * from p_user <include refid="user_where"></include>
+        order by user_id desc limit #{pyl},#{page_size}
+
+    </select>
+
+    <!--获得总条数-->
+    <select id="findUserListCount" resultType="java.lang.Integer">
+        select count(1) from p_user
+    <include refid="user_where"></include>
+    </select>
+    <select id="findUserId" resultType="com.pension.pro.entity.User">
+        select * from p_user where user_id=#{id}
+    </select>
+
+
+    <select id="selectUserById" resultType="com.pension.pro.entity.User">
+
+    </select>
+
+
+</mapper>

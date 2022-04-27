@@ -1,0 +1,54 @@
+
+#配置数据源
+spring:
+  application:
+    name: jwt
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    encoding: UTF-8
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: pension_program
+    password: TYHFb68KCf3YtELi
+    url: jdbc:mysql://81.68.246.75:3306/pension_program?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
+
+  redis:
+    database: 0
+    host: 6379
+    #password:
+
+  #静态资源配置
+  web:
+    resources:
+      static-locations: classpath:/templates,classpath:/static/
+
+  #resources:
+    #static-locations: classpath:/templates,classpath:/static/
+
+#设置端口号
+server:
+  port: 8081
+
+#mybatis配置
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+  global-config:
+    db-config:
+      logic-delete-field: flag
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  mapper-locations: classpath:mappers/*.xml
+  type-aliases-package: com.pension.pro.entity
+
+
+#配置日志文件参数
+#logging:
+#  file:
+#    path: D:/myLog/adminLog.log
+#  level:
+#    org:
+#      springframework: debug
+#    hibernate: debug
