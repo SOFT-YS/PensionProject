@@ -17,9 +17,46 @@ import java.util.List;
  */
 public interface UserDao extends BaseMapper<User> {
 
-    public User findUserId (Integer id);
+
 
     @Select("select * from p_user where user_name=#{uname} and user_age=#{upwd}")
     public User login(@Param("uname")String uname,@Param("upwd") String upwd);
+
+
+    /**
+     * 翻译查询用户信息
+     * @param pyl
+     * @param page_size
+     * @param user_name
+     * @param user_phone
+     * @return
+     */
+    public List<User> findUserList(
+            @Param("pyl") Integer pyl,
+            @Param("page_size") Integer page_size,
+            @Param("user_name")String user_name,
+            @Param("user_phone")String user_phone
+    );
+
+    /**
+     * 获得总条数
+     * @param user_name
+     * @param user_phone
+     * @return
+     */
+    public Integer findUserListCount(
+            @Param("user_name")String user_name,
+            @Param("user_phone")String user_phone
+    );
+
+    /**
+     * 通过ID获得用户信息
+     * @param id
+     * @return
+     */
+    public User findUserId (Integer id);
+
+
+
 
 }

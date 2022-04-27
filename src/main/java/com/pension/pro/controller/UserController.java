@@ -6,6 +6,7 @@ import com.pension.pro.entity.User;
 import com.pension.pro.service.UserService;
 
 
+import com.pension.pro.utils.JsonMassage;
 import com.pension.pro.utils.MassageJson;
 import com.pension.pro.utils.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,24 @@ public class UserController {
     private RedisUtil redisUtil;
 
 
+    @RequestMapping(value = "/findUserList",method = RequestMethod.GET)
+    @ResponseBody
+    public JsonMassage<List<User>> findUserList(
+            @RequestParam(value = "page",defaultValue = "1") Integer page,
+            @RequestParam(value = "limit",defaultValue = "10") Integer limit,
+            String user_name,
+            String user_phone
+    ){
+        List<User> list = userService.findUserList(page, limit, user_name, user_phone);
+        Integer count = userService.findUserListCount(user_name,user_phone);
 
+        JsonMassage<List<User>> jsonMassage = new JsonMassage<List<User>>();
+        jsonMassage.setCode(0);
+        jsonMassage.setMsg("请求成功");
+        jsonMassage.setCount(count);
+        jsonMassage.setData(list);
+        return jsonMassage;
+    }
 
 
     @RequestMapping("/mohu")
@@ -57,33 +75,9 @@ public class UserController {
 
     @RequestMapping("/findUserId/{id}")
     public String findUserId(@PathVariable("id") Integer id, Model model){
-
         Model user = model.addAttribute("user", userService.findUserId(id));
         return user.toString();
     }
-
-    @PostMapping("/login")
-    public MassageJson<String> login(String uname,String upwd){
-        return userService.login(uname,upwd);
-    }
-
-
-    @GetMapping("/menu")
-    public MassageJson<String> menu(){
-        System.out.println("进来了menu");
-        return  new MassageJson<String>(200,"请求成功","模拟数据");
-    }
-    @GetMapping("/info")
-    public MassageJson<String> info(){
-        System.out.println("进来了info");
-        return  new MassageJson<String>(200,"请求成功","模拟数据");
-    }
-    @GetMapping("/list")
-    public MassageJson<String> list(){
-        System.out.println("进来了list");
-        return  new MassageJson<String>(200,"请求成功","模拟数据");
-    }
-
 
 
 

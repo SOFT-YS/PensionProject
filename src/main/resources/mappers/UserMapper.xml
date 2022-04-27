@@ -11,8 +11,8 @@
             <if test="user_name!=null">
                 user_name like concat('%',#{user_name},'%')
             </if>
-            <if test="user_idcard">
-                and user_idcard like concat('%',#{user_idcard},'%')
+            <if test="user_phone!=null">
+                and user_phone like concat('%',#{user_phone},'%')
             </if>
 
         </where>
@@ -73,9 +73,7 @@
     </select>
 
 
-    <select id="selectUserById" resultType="com.pension.pro.entity.User">
 
-    </select>
 
 
 </mapper>

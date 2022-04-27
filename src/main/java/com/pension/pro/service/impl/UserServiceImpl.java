@@ -33,10 +33,19 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
 
     @Override
     public User findUserId(Integer id) {
-
-
-
         return userDao.findUserId(id);
+    }
+
+    @Override
+    public List<User> findUserList(Integer curr_page, Integer page_size, String user_name, String user_phone) {
+        //计算偏移量 = (当前页-1)*每页显示条数
+        Integer pyl = (curr_page-1)*page_size;
+        return userDao.findUserList(pyl,page_size,user_name,user_phone);
+    }
+
+    @Override
+    public Integer findUserListCount(String user_name, String user_phone) {
+        return userDao.findUserListCount(user_name,user_phone);
     }
 
     @Override
@@ -71,13 +80,12 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
             //登录失败
             return  new MassageJson<String>(250,"登录失败",null);
         }
-
-
-
-
-
-
-
-
     }
+
+
+
+
+
+
+
 }
